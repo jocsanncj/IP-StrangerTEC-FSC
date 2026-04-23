@@ -30,21 +30,26 @@ def parpadear():
     ventprincipal.after(750, parpadear) #Hace que la función se ejecute cada 750 milisegundos
 
 
-
 def continuar(event = None):
     estado["Parpadear"] = False
+    ventprincipal.unbind("<Key>") #Deja de ejecutar la función 'continuar' al tocar cualquier tecla
     menu()
    
 def menu():
     canvaprincipal.delete("all") #Borra todo lo que hay en el canva
-    canvaprincipal.create_text(371, 310, text= 'kkkkkkk', fill= '#D7271E' , font= ('Stranger Things Outlined', 70)) #Crea el texto que aparece en la ventana
+    canvaprincipal.create_text(371, 110, text= 'Bienvenido', fill= '#D7271E' , font= ('Stranger Things Outlined', 65)) #Crea el texto que aparece en la ventana
+    canvaprincipal.create_text(371, 380, text= 'Escriba un nombre de usuario', fill= 'white' , font= ('Benguiat Bold', 10))
+    username = tk.Entry(canvaprincipal, font= ('Benguiat Bold', 12)) #Crea un campo de texto para que el usuario escriba su nombre de usuario
+    username.place(x= 371, y= 410, anchor="center") #Posiciona el campo de texto en el canva
+    botoncontinuar = tk.Button(canvaprincipal, text= 'Continuar', font= ('Benguiat Bold', 12), command=lambda: botoncontinuar)
+    botoncontinuar.place(x= 371, y= 450, anchor="center") #Posiciona el botón en el canva
+
+    botoncontinuar.bind("<Enter>")
 
 
-# Detectar tecla y mouse
-ventprincipal.bind("<Key>", continuar)
-ventprincipal.bind("<Button>", continuar)
+ventprincipal.bind("<Key>", continuar) #Al tocar cualquier tecla se ejecuta 'continuar'
 
-parpadear()
+parpadear() #Ejecuta 'parpadear'
 
 canvaprincipal.pack()
 

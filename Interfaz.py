@@ -59,18 +59,18 @@ def menu():
     canvaprincipal.create_text(371, 390, text= 'Jugador 2', fill= 'white' , font= ('Benguiat Bold', 12)) #Crea el texto que indica el campo de texto para el jugador 2
     username2 = tk.Entry(canvaprincipal, font= ('Benguiat Bold', 12), fg= 'white', background= 'black', insertbackground= 'white', highlightbackground= '#D7271E', highlightthickness = 2, relief= 'solid', justify= 'center') #Crea un campo de texto para que el usuario escriba su nombre de usuario
     username2.place(x= 371, y= 430, anchor="center") #
-    botoncontinuar = tk.Button(canvaprincipal, text= 'Continuar', font= ('Benguiat Bold', 12), command = lambda: continuar1()) #Crea un botón que al ser presionado ejecuta la función 'modos'
+    botoncontinuar = tk.Button(canvaprincipal, text= 'Continuar', font= ('Retro Gaming', 12, 'bold'), command = lambda: continuar1(), bg = '#D7271E', fg = 'black', activebackground= "#B82119", bd = 0 ) #Crea un botón que al ser presionado ejecuta la función 'modos'
     botoncontinuar.place(x= 371, y= 500, anchor="center") #Posiciona el botón en el canva
 
     def continuar1():
-        if username1.get() != '' or username2.get() != '': #Si el campo de texto no está vacío
-            modos() #Ejecuta la función 'modos'
+        if username1.get() != '' and username2.get() != '': #Si el campo de texto no está vacío
+            elegir_modos() #Ejecuta la función 'modos'
 
         else:
             messagebox.showwarning("Advertencia", "Por favor, ingrese un nombre de usuario") #Si el campo de texto está vacío, muestra un mensaje de advertencia
 
 
-def modos():
+def elegir_modos():
     canvaprincipal.delete("all")
     username1.destroy() #Elimina el campo de texto
     username2.destroy() #Elimina el campo de texto
@@ -78,13 +78,39 @@ def modos():
 
     canvaprincipal.create_text(371, 120, text= 'Modos de juego', fill= '#D7271E' , font= ('Stranger Things Outlined', 55))
 
-    canvaprincipal.create_rectangle(50, 150, 300, 250, outline='white') #Crea un rectángulo para el primer modo de juego
-    canvaprincipal.create_rectangle(450, 150, 700, 250, outline='white') #Crea un rectángulo para el segundo modo de juego
+    canvaprincipal.create_rectangle(15, 190, 350, 650, outline='white')
+    canvaprincipal.create_rectangle(390, 190, 727, 650, outline='white')
 
-    canvaprincipal.create_text(171, 230, text= 'Escucha y transmición', fill= 'white' , font= ('Benguiat Bold', 15))
-    canvaprincipal.create_text(571, 230, text= 'Transmisión simple', fill= 'white' , font= ('Benguiat Bold', 15))
+    canvaprincipal.create_text(183, 230, text= 'Escucha y transmisión', fill= 'white' , font= ('Benguiat Bold', 15))
+    canvaprincipal.create_text(183, 365, text= '• Dos personas deben interpretar una frase transmitida por luces o sonidos desde la maqueta. \n'
+    ' \n '
+    '• En cada ronda el jugador 1 usa el teclado de la computadora y el jugador 2, los botones físicos de la maqueta para ingresar su respuesta. \n'
+    ' \n '
+    '• Los participantes intercambian sus puestos para repetir el proceso con la misma frase', fill= 'white' , font= ('Benguiat Bold', 9), width = 270)
+    canvaprincipal.create_text(559, 230, text= 'Transmisión simple', fill= 'white' , font= ('Benguiat Bold', 15))
+    canvaprincipal.create_text(559, 365, text= '• Desde la maqueta, los jugadores transmiten un mensaje previamente seleccionado para que sea recibido en la computadora.  \n'
+    ' \n '
+    '• Se validará el mensaje y se asignará un puntaje según la velocidad de transmisión y el acierto de caracteres.  \n'
+    ' \n '
+    'Al final de cada ronda, se cambia de turno hasta encontrar un ganador', fill= 'white', font= ('Benguiat Bold', 9), width = 270)
+
+    global boton_et, boton_ts
+
+    boton_et = tk.Button(canvaprincipal, text= 'Elegir modo', font= ('Retro Gaming', 12, 'bold'), bg= '#D7271E', fg= 'black', activebackground= '#B82119', bd= 0, command= lambda: modo_et())
+    boton_et.place(x= 183, y= 610, anchor= 'center')
+    boton_ts = tk.Button(canvaprincipal, text= 'Elegir modo', font= ('Retro Gaming', 12, 'bold'), bg= '#D7271E', fg= 'black', activebackground= '#B82119', bd= 0, command= lambda: modo_ts())
+    boton_ts.place(x= 559, y= 610, anchor= 'center' )
 
 
+def modo_et():
+    canvaprincipal.delete('all')
+    boton_ts.destroy()
+    boton_et.destroy()
+
+def modo_ts():
+    canvaprincipal.delete('all')
+    boton_ts.destroy()
+    boton_et.destroy()
 
 
 ventprincipal.bind("<Key>", continuar) #Al tocar cualquier tecla se ejecuta 'continuar'

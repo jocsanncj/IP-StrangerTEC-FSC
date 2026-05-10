@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
+import random
 
 ventprincipal = tk.Tk() #Crea la ventana principal
 ventprincipal.title('Proyecto StrangerTEC') #El título de la ventana
@@ -50,20 +51,20 @@ def menu():
     canvaprincipal.create_text(371, 110, text= 'Bienvenido', fill= '#D7271E' , font= ('Stranger Things Outlined', 65)) #Crea el texto que aparece en la ventana
     canvaprincipal.create_text(371, 250, text= 'Escriba los nombres de los jugadores:', fill= 'white' , font= ('Benguiat Bold', 10))
 
-    global username1, username2, botoncontinuar
+    global nombre1, nombre2, botoncontinuar
 
     canvaprincipal.create_text(371, 310, text= 'Jugador 1', fill= 'white' , font= ('Benguiat Bold', 12)) #Crea el texto que indica el campo de texto para el jugador 1
-    username1 = tk.Entry(canvaprincipal, font= ('Benguiat Bold', 12), fg= 'white', background= 'black', insertbackground= 'white', highlightbackground= '#D7271E', highlightthickness = 2, relief= 'solid', justify= 'center') #Crea un campo de texto para que el usuario escriba su nombre de usuario
-    username1.place(x= 371, y= 350, anchor="center") #Posiciona el campo de texto en el canva
+    nombre1 = tk.Entry(canvaprincipal, font= ('Benguiat Bold', 12), fg= 'white', background= 'black', insertbackground= 'white', highlightbackground= '#D7271E', highlightthickness = 2, relief= 'solid', justify= 'center') #Crea un campo de texto para que el usuario escriba su nombre de usuario
+    nombre1.place(x= 371, y= 350, anchor="center") #Posiciona el campo de texto en el canva
 
     canvaprincipal.create_text(371, 390, text= 'Jugador 2', fill= 'white' , font= ('Benguiat Bold', 12)) #Crea el texto que indica el campo de texto para el jugador 2
-    username2 = tk.Entry(canvaprincipal, font= ('Benguiat Bold', 12), fg= 'white', background= 'black', insertbackground= 'white', highlightbackground= '#D7271E', highlightthickness = 2, relief= 'solid', justify= 'center') #Crea un campo de texto para que el usuario escriba su nombre de usuario
-    username2.place(x= 371, y= 430, anchor="center") #
+    nombre2 = tk.Entry(canvaprincipal, font= ('Benguiat Bold', 12), fg= 'white', background= 'black', insertbackground= 'white', highlightbackground= '#D7271E', highlightthickness = 2, relief= 'solid', justify= 'center') #Crea un campo de texto para que el usuario escriba su nombre de usuario
+    nombre2.place(x= 371, y= 430, anchor="center") #
     botoncontinuar = tk.Button(canvaprincipal, text= 'Continuar', font= ('Retro Gaming', 12, 'bold'), command = lambda: continuar1(), bg = '#D7271E', fg = 'black', activebackground= "#B82119", bd = 0 ) #Crea un botón que al ser presionado ejecuta la función 'modos'
     botoncontinuar.place(x= 371, y= 500, anchor="center") #Posiciona el botón en el canva
 
     def continuar1():
-        if username1.get() != '' and username2.get() != '': #Si el campo de texto no está vacío
+        if nombre1.get() != '' and nombre2.get() != '': #Si el campo de texto no está vacío
             elegir_modos() #Ejecuta la función 'modos'
 
         else:
@@ -72,8 +73,8 @@ def menu():
 
 def elegir_modos():
     canvaprincipal.delete("all")
-    username1.destroy() #Elimina el campo de texto
-    username2.destroy() #Elimina el campo de texto
+    nombre1.destroy() #Elimina el campo de texto
+    nombre2.destroy() #Elimina el campo de texto
     botoncontinuar.destroy() #Elimina el botón
 
     canvaprincipal.create_text(371, 120, text= 'Modos de juego', fill= '#D7271E' , font= ('Stranger Things Outlined', 55))
@@ -92,7 +93,7 @@ def elegir_modos():
     ' \n '
     '• Se validará el mensaje y se asignará un puntaje según la velocidad de transmisión y el acierto de caracteres.  \n'
     ' \n '
-    'Al final de cada ronda, se cambia de turno hasta encontrar un ganador', fill= 'white', font= ('Benguiat Bold', 9), width = 270)
+    '• Al final de cada ronda, se cambia de turno hasta encontrar un ganador', fill= 'white', font= ('Benguiat Bold', 9), width = 270)
 
     global boton_et, boton_ts
 
@@ -102,10 +103,57 @@ def elegir_modos():
     boton_ts.place(x= 559, y= 610, anchor= 'center' )
 
 
+frases = [
+    'SOS',
+    'RADIO',
+    'VOLTAJE +220',
+    'YES',
+    'NO',
+    'SALDO -10',
+    'SUBMARINO',
+    'TRANSMISIÓN OK',
+    'WHISKY',
+    'STRANGERTEC',
+]
+
+frase_actual = ''
+
+
+def rondas():
+    global frase_actual
+
+    frases_disponibles = [f for f in frases if f != frase_actual]
+
+    if frases_disponibles:
+        frase_actual = random.choice(frases_disponibles)
+    
+    else:
+        frase_actual = random.choice(frases)
+
+
+Morse = {
+    'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+    'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+    'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+    'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+    'Y': '-.--','Z': '--..', '1': '.----', '2': '..---', '3': '...--', '4': '....-', 
+    '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.', '0': '-----',
+    '+': '.-.-.', '-': '-....-'
+} #Diccionario para convertir de texto a código Morse
+
+Morse_Inv = {v: k for k, v in Morse.items()} #Diccionario para invertir de código Morse a texto
+
+
 def modo_et():
     canvaprincipal.delete('all')
     boton_ts.destroy()
     boton_et.destroy()
+
+    canvaprincipal.create_text(371, 100, text= 'Escucha y Transmision', fill= '#D7271E' , font= ('Stranger Things Outlined', 43), justify= 'center')
+    canvaprincipal.create_text(371, 200, text= 'Frase a transmitir:', fill= 'white' , font= ('Benguiat Bold', 15), justify= 'center')
+    texto_frase = canvaprincipal.create_text(371, 300, text= '', fill= 'white', font= ('Retro Gaming', 20), justify= 'center')
+    canvaprincipal.itemconfig(texto_frase, text= frase_actual)
+    
 
 def modo_ts():
     canvaprincipal.delete('all')
@@ -114,6 +162,8 @@ def modo_ts():
 
 
 ventprincipal.bind("<Key>", continuar) #Al tocar cualquier tecla se ejecuta 'continuar'
+
+rondas()
 
 parpadear() #Ejecuta 'parpadear'
 
